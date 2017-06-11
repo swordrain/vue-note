@@ -1,6 +1,7 @@
 # 视图与表单的处理
 
-## 集成UIKit
+集成UIKit
+
 如果没有使用`webpack`模板，就要手动引入`url-loader`
 
 在`main.js`文件中引入，这样使`UIKit`成为全局性的
@@ -89,3 +90,107 @@ plugins: [
 ]
 ```
 
+`Vue2`也是集成了`VirtualDom`，`template`最终会被编译成一个`Render`对象，`compile`全局方法就是讲HTML模板字符串编译成一个`Render`对象
+
+```
+let renderObject = Vue.compile(`<div>
+	<h1>模板</h1>
+	<p v-if="message">
+		{{message}}
+	</p>
+	<p else>
+		尚无消息
+	</p>
+</div>`)
+//编译结果
+//{staticRenderFns: Array(0), render: function}
+//render方法内容
+//function anonymous() {
+with(this){return _h('div',[_h('h1',["模板"])," ",(message)?_h('p',["\n\t\t"+_s(message)+"\n\t"]):_e()," ",_h('p',{attrs:{"else":""}},["\n\t\t尚无消息\n\t"])])}
+}
+```
+>类似于React编译JSX
+
+可以使用`render`方式来写一个纯JS的组件
+
+```
+export default {
+	name: 'UkButton', //组件名必须
+	props: [],
+	data: {},
+	method: {},
+	...
+	render(createElement) {
+		return createElement('button', {
+			class:{
+				'uk-button': true
+			}
+		})
+	}
+}
+```
+
+`createElement`可以用来构造DOM，实例化Vue组件
+
+```
+createElement(tag, data, childre)
+data对象可以包含
+class
+style
+attrs
+props
+domProps
+on
+nativeOn
+directives
+slot
+key
+ref
+```
+
+`Vue`也可以集成`JSX`，用`JSX`的方式来写`template`
+
+表单验证，`vue-validator`还不能支持`Vue2`，现在使用`vee-validate`
+
+开发时如果要设置代理避免跨域，可以在`config/index.js`里配置
+
+```
+dev:{
+	proxyTable: {
+		'/api': {
+			target: 'http://api.demo.com',
+			changeOrigin: true
+		}
+	}
+}
+```
+
+`/api`是匹配模式
+
+* ** - 匹配所有模式
+* ** / *.html - 匹配html结尾的请求
+* /*.html - 匹配根目录下html结尾的请求
+* /api/** /*.html - 匹配/api路径下任意html结尾的请求
+
+其他配置选项有(具体查看micromatch)
+* target
+* forward
+* agent
+* ssl
+* ws
+* xfwd
+* secure
+* toProxy
+* prependPath
+* ignorePath
+* localAddress
+* changeOrigin
+* auth
+* hostRewrite
+* autoRewrite
+* protocolRewrite
+* cookieDomainRewrite
+* headers
+* proxyTimeout
+
+如果要进行后端服务仿真，到`build/dev-server.js`里进行修改

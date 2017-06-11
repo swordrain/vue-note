@@ -81,7 +81,7 @@ export default() {
 ```
 import Vue from 'vue'
 import VueResource from 'vue-resource'
-Vue.use(VueResource)
+Vue.use(VueResource) //注入后，Vue根实例就有一个$http对象
 
 export default {
 	data() {
@@ -109,7 +109,7 @@ export default {
 ```
 new Vue({
 	http: {
-		root: '/api',
+		root: '/api', //资源根目录
 		headers: {}
 	},
 	...
