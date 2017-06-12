@@ -157,10 +157,13 @@ ref
 ```
 dev:{
 	proxyTable: {
-		'/api': {
-			target: 'http://api.demo.com',
-			changeOrigin: true
-		}
+		'/api':{
+           	 	target: "http://api.douban.com",
+            		changeOrigin: true,
+            		pathRewrite: {
+              			'^/api': '/'
+            		}
+        	}
 	}
 }
 ```
