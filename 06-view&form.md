@@ -152,7 +152,7 @@ ref
 
 表单验证，`vue-validator`还不能支持`Vue2`，现在使用`vee-validate`
 
-开发时如果要设置代理避免跨域，可以在`config/index.js`里配置
+开发时如果要设置代理避免跨域，可以在`config/index.js`里配置(集成了http-proxy-middleware)
 
 ```
 dev:{
